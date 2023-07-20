@@ -1,0 +1,105 @@
+package selenium;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+public class Testngclass 
+{
+	String driverpath = "C:\\chrome driver\\chromedriver.exe";
+	public WebDriver driver;
+	
+	@BeforeSuite
+	public void fnInitialization(){
+		System.setProperty("webdriver.chrome.driver",driverpath);
+		 driver = new ChromeDriver();
+		driver.get("https://www.redbus.in/bus-tickets");
+	} 
+  @Test(priority = 1)
+  public void fnEnterFromto() throws InterruptedException {
+	  WebElement frombox = driver.findElement(By.id("txtSource"));
+		frombox.sendKeys("Bangalore");
+		
+		WebElement fromboxtap = driver.findElement(By.className("C120_slist-item"));
+		fromboxtap.click();
+		
+		WebElement tobox = driver.findElement(By.id("txtDestination"));
+		tobox.sendKeys("Chennai");
+		Thread.sleep(1000);
+		
+		WebElement toboxtap = driver.findElement(By.xpath("//li[@data-cid='123']"));
+		toboxtap.click();
+  }
+  @Test(priority = 2)
+  public void fnSlectdate() throws InterruptedException {
+	  WebElement onwordsdatebox = driver.findElement(By.id("txtOnwardCalendar"));
+		onwordsdatebox.click();
+		
+		WebElement selectdate = driver.findElement(By.xpath("//*[@id=\"rb-calmiddle\"]/ul[2]/li[24]/span"));
+		selectdate.click();
+		Thread.sleep(1000);
+  }
+  @Test(priority = 3)
+  public void fnSearchbus() throws InterruptedException {
+	  WebElement searchbox = driver.findElement(By.xpath("//button[text()='Search Buses']"));
+		searchbox.click();
+		Thread.sleep(5000);
+		try {
+			Thread.sleep(2500);
+			WebElement popupbox = driver.findElement(By.xpath("//i[@class='icon icon-close c-fs']"));
+		popupbox.click();
+		System.out.println("Popup appered and closed sucessfully");		}
+		catch(Exception e) {System.out.println("popup did not appers");}
+		Thread.sleep(2500);
+		try {
+			WebElement primobox = driver.findElement(By.xpath("//i[@class='icon icon-close']"));
+		primobox.click();
+		System.out.println("Primo appered and closed sucessfully");      }
+		catch(Exception ne) {System.out.println("primo did not appers");}
+  }
+  @Test(priority = 4)
+  public void fnBusdetailes() {
+	  WebElement Busname = driver.findElement(By.xpath("//div[@class='travels lh-24 f-bold d-color']"));
+		String Txt= Busname.getText();
+		System.out.println("Name of the bus: " + Txt);
+		WebElement departurepoint = driver.findElement(By.xpath("//div[@class='dp-loc l-color w-wrap f-12 m-top-42']"));
+		String Txt1= departurepoint.getText();
+		System.out.println("Departure point is:" + Txt1);
+		WebElement destinationpoint = driver.findElement(By.xpath("//div[@class='bp-loc l-color w-wrap f-12 m-top-8']"));
+		String Txt2= destinationpoint.getText();
+		System.out.println("Destination point is:" + Txt2);
+		WebElement journeystarttime = driver.findElement(By.xpath("//*[@id=\"14157307\"]/div/div[1]/div[1]/div[2]/div[1]"));
+		String Txt3= journeystarttime.getText();
+		System.out.println("Journey Starts at:" + Txt3 + " PM ");
+		WebElement journeyendtime = driver.findElement(By.xpath("//*[@id=\"14157307\"]/div/div[1]/div[1]/div[4]/div[1]"));
+		String Txt4= journeyendtime.getText();
+		System.out.println("Journey ends at:" + Txt4 + " AM ");
+		WebElement Timing = driver.findElement(By.xpath("//div[@class='dur l-color lh-24']"));
+		String Txt8= Timing.getText();
+		System.out.println("Time takes to Reach Destination: " + Txt8);
+		WebElement Fare = driver.findElement(By.xpath("//div[@class='fare d-block']"));
+		String Txt9= Fare.getText();
+		System.out.println("Fare Starts From:" + Txt9);
+		WebElement availableseats = driver.findElement(By.xpath("//*[@id=\"14157307\"]/div/div[1]/div[1]/div[7]/div[1]"));
+		String Txt10=availableseats.getText();
+		System.out.println("Available Seats:" + Txt10);
+		WebElement viewseatsbox = driver.findElement(By.xpath("//div[@class='button view-seats fr']"));
+		viewseatsbox.click();
+  }
+  @Test(priority = 5)
+  public void fnAmunitiesinbus() {
+	  WebElement amenities = driver.findElement(By.xpath("//*[@id=\"14157307\"]/div[1]/div[2]/div[2]/ul/li[3]/span"));
+		amenities.click();
+		WebElement amenitiesbox = driver.findElement(By.xpath("//*[@id=\"14157307\"]/div[1]/div[2]/div[2]/div[2]/div/ul"));
+		String Txt11= amenitiesbox.getText();
+		System.out.println("Amenities are:" + Txt11);
+  }
+  @AfterSuite
+  public void fnClosebrouser() {
+	  driver.close();
+  }
+}
